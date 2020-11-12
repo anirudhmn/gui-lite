@@ -189,7 +189,7 @@ class MainWindow(QMainWindow):
 
         # plotting area
         self.plotArea = pg.GraphicsLayoutWidget()
-        self.numPlots = 2
+        self.numPlots = 5
         self.xRange = 2000
         self.plots = []
         self.plotLineRefs = []
@@ -206,8 +206,10 @@ class MainWindow(QMainWindow):
             self.plotCh[i].setMaximum(66)
             self.plotCh[i].setSingleStep(1)
         self.plotCh[0].setValue(0)
-        self.plotCh[1].setValue(64)
-
+        self.plotCh[1].setValue(1)
+        self.plotCh[2].setValue(2)
+        self.plotCh[3].setValue(3)
+        self.plotCh[4].setValue(4)
         # scroll style selection
         self.scrollStyle = QComboBox()
         self.scrollStyle.addItem('Plot continous scroll')
@@ -315,33 +317,36 @@ class MainWindow(QMainWindow):
         self.desc = QLineEdit()
 
         # add widgets to layout
-        self.layout.addWidget(self.plotArea,0,0,6,5)
-        self.layout.addWidget(self.effort,6,0,2,5)
-        self.layout.addWidget(self.effortControlled,8,0,2,5)
-        self.layout.addWidget(self.streamButton,11,0,1,1)
-        self.layout.addWidget(self.plotCh[0],11,1,1,1)
-        self.layout.addWidget(self.plotCh[1],11,2,1,1)
-        self.layout.addWidget(self.scrollStyle,12,0,1,2)
-        self.layout.addWidget(self.saveDataCheck,12,2,1,1)
-        self.layout.addWidget(self.expCheck,12,3,1,1)
-        self.layout.addWidget(self.wideCheck,12,4,1,1)
+        self.layout.addWidget(self.plotArea,0,0,10,6)
+        self.layout.addWidget(self.effort,10,0,2,6)
+        self.layout.addWidget(self.effortControlled,12,0,2,6)
+        self.layout.addWidget(self.streamButton,14,0,1,1)
+        self.layout.addWidget(self.plotCh[0],14,1,1,1)
+        self.layout.addWidget(self.plotCh[1],14,2,1,1)
+        self.layout.addWidget(self.plotCh[2],14,3,1,1)
+        self.layout.addWidget(self.plotCh[3],14,4,1,1)
+        self.layout.addWidget(self.plotCh[4],14,5,1,1)
+        self.layout.addWidget(self.scrollStyle,15,0,1,2)
+        self.layout.addWidget(self.saveDataCheck,15,2,1,1)
+        self.layout.addWidget(self.expCheck,15,3,1,1)
+        self.layout.addWidget(self.wideCheck,15,4,1,1)
 
-        self.layout.addWidget(self.message,0,5,2,8)
-        self.layout.addWidget(self.posImage,2,5,5,4)
-        self.layout.addWidget(self.subjectLabel,8,5,1,2)
-        self.layout.addWidget(self.expLabel,8,7,1,2)
-        self.layout.addWidget(self.subjectSelect,9,5,1,2)
-        self.layout.addWidget(self.expSelect,9,7,1,2)
-        self.layout.addWidget(self.repsLabel,10,5,1,2)
-        self.layout.addWidget(self.gestLenLabel,10,7,1,2)
-        self.layout.addWidget(self.bufferLenLabel,10,9,1,2)
-        self.layout.addWidget(self.numReps,11,5,1,2)
-        self.layout.addWidget(self.gestureLen,11,7,1,2)
-        self.layout.addWidget(self.bufferLen,11,9,1,2)
-        self.layout.addWidget(self.descLabel,12,5,1,1)
-        self.layout.addWidget(self.desc,12,6,1,5)
+        self.layout.addWidget(self.message,0,6,2,8)
+        self.layout.addWidget(self.posImage,2,6,8,4)
+        self.layout.addWidget(self.subjectLabel,11,6,1,2)
+        self.layout.addWidget(self.expLabel,11,8,1,2)
+        self.layout.addWidget(self.subjectSelect,12,6,1,2)
+        self.layout.addWidget(self.expSelect,12,8,1,2)
+        self.layout.addWidget(self.repsLabel,13,6,1,2)
+        self.layout.addWidget(self.gestLenLabel,13,8,1,2)
+        self.layout.addWidget(self.bufferLenLabel,13,10,1,2)
+        self.layout.addWidget(self.numReps,14,6,1,2)
+        self.layout.addWidget(self.gestureLen,14,8,1,2)
+        self.layout.addWidget(self.bufferLen,14,10,1,2)
+        self.layout.addWidget(self.descLabel,15,6,1,1)
+        self.layout.addWidget(self.desc,15,7,1,5)
 
-        self.layout.addWidget(self.stdoutText,13,0,1,11)
+        self.layout.addWidget(self.stdoutText,16,0,1,17)
 
         self.widget = QWidget()
         self.widget.setLayout(self.layout)
