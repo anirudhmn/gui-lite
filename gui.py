@@ -1,12 +1,10 @@
-# 32,33,34,35,36
-
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import pyqtgraph as pg
 from queue import Queue, Empty
-# import flexemgComm
+import flexemgComm
 import time
 import numpy as np
 import scipy.io as sio
@@ -541,16 +539,16 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     # raw samples read from base station
-    # sampleQueue = Queue()
-    #
-    # # open connection to cp2130 base station
-    # cp2130Handle, kernelAttached, deviceList, context = flexemgComm.open_cp2130()
-    #
-    # # test for connection with board
-    # if not(flexemgComm.writeReg(cp2130Handle,0,0x0F,0xBEEF)):
-    #     # quit program if no connection found
-    #     print('Could not find FlexEMG board, exiting!')
-    # else:
+    sampleQueue = Queue()
+
+    # open connection to cp2130 base station
+    cp2130Handle, kernelAttached, deviceList, context = flexemgComm.open_cp2130()
+
+    # test for connection with board
+    if not(flexemgComm.writeReg(cp2130Handle,0,0x0F,0xBEEF)):
+        # quit program if no connection found
+        print('Could not find FlexEMG board, exiting!')
+    else:
         print('Successfully connected to FlexEMG board!')
         # main application instance
         QApplication.setStyle('fusion')
