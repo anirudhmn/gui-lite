@@ -506,16 +506,14 @@ class MainWindow(QMainWindow):
         #FORCE SENSOR
         if 'Hold rest position for' in self.messageList[self.messageIdx]:
             self.forceCalibration.append(np.mean(data[-1][32:37]))
-            self.forceMinimum = np.mean(self.forceCalibration)
+            self.forceMinimum = int(np.mean(self.forceCalibration))
             self.effort.setMinimum(self.forceMinimum)
-            self.effortControlled.setMinimum(self.forceMinimum)
         elif 'Start squeezing as hard as you can for' in self.messageList[self.messageIdx]:
             self.forceCalibration = []
         elif 'Hold squeezing as hard as you can for' in self.messageList[self.messageIdx]:
             self.forceCalibration.append(np.mean(data[-1][32:37]))
-            self.forceMaximum = np.mean(self.forceCalibration)
+            self.forceMaximum = int(np.mean(self.forceCalibration))
             self.effort.setMaximum(self.forceMaximum)
-            self.effortControlled.setMaximum(self.forceMaximum)
         elif "Sqeeze\nApply force to the bottle and match the" in self.messageList[self.messageIdx]:
             if self.firstInitialSample:
                 self.initialSample = samples
@@ -524,8 +522,8 @@ class MainWindow(QMainWindow):
             x = self.plotEffortControlled(samples)
             self.effortControlled.setValue(x)
             if self.firstInitialSample:
-                self.effortControlled.setValue(0)
-                self.effort.setValue(0)
+                self.effortControlled.setValue(self.effortControlled.minimum())
+                self.effort.setValue(self.effortControlled.minimum())
                 self.processThread.appendEmptyRow(-1)
         self.effort.setValue(np.mean(data[-1][32:37]))
 
