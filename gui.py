@@ -145,7 +145,7 @@ class processThread(QThread):
             print("Received total of {} samples".format(self.samples))
             print("    with {} CRCs (error rate = {})".format(self.crcSamples, self.crcSamples/self.samples))
             if self.saveDataChecked:
-                saveDir = '/Users/andy/Research/gui_lite/gui-lite/data/'
+                saveDir = '/Users/ally.menon/Documents/Grad School/Research/HD Feedback/GUI/HDCRORB_forceemg_gui/gui-lite/data/'
                 if not os.path.exists(saveDir):
                     os.makedirs(saveDir)
                 matData = np.asarray(self.saveData)
@@ -178,8 +178,8 @@ class processThread(QThread):
     def setMeta(self,matOut):
         self.matOut = matOut
 
-    def appendEmptyRow(self):
-        self.saveData.append([0,0,0,0,0])
+    def appendEmptyRow(self, x):
+        self.saveData.append([x,x,x,x,x])
 
 # subclass QMainWindow to customize
 class MainWindow(QMainWindow):
@@ -506,26 +506,28 @@ class MainWindow(QMainWindow):
         #FORCE SENSOR
         if 'Hold rest position for' in self.messageList[self.messageIdx]:
             self.forceCalibration.append(np.mean(data[-1][32:37]))
-            self.forceMinimum = np.mean(self.forceCalibration) * 1000
+            self.forceMinimum = np.mean(self.forceCalibration)
             self.effort.setMinimum(self.forceMinimum)
             self.effortControlled.setMinimum(self.forceMinimum)
         elif 'Start squeezing as hard as you can for' in self.messageList[self.messageIdx]:
             self.forceCalibration = []
         elif 'Hold squeezing as hard as you can for' in self.messageList[self.messageIdx]:
             self.forceCalibration.append(np.mean(data[-1][32:37]))
-            self.forceMaximum = np.mean(self.forceCalibration) * 1000
+            self.forceMaximum = np.mean(self.forceCalibration)
             self.effort.setMaximum(self.forceMaximum)
             self.effortControlled.setMaximum(self.forceMaximum)
         elif "Sqeeze\nApply force to the bottle and match the" in self.messageList[self.messageIdx]:
             if self.firstInitialSample:
                 self.initialSample = samples
                 self.firstInitialSample = False
+                self.processThread.appendEmptyRow(0)
             x = self.plotEffortControlled(samples)
+            self.effortControlled.setValue(x)
             if self.firstInitialSample:
                 self.effortControlled.setValue(0)
                 self.effort.setValue(0)
-                self.processThread.appendEmptyRow()
-        self.effort.setValue(np.mean(data[-1][32:37])*1000)
+                self.processThread.appendEmptyRow(-1)
+        self.effort.setValue(np.mean(data[-1][32:37]))
 
     def plotEffortControlled(self, samples):
         totalTime = self.gestureLen.value()*1000
