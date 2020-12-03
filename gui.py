@@ -540,10 +540,10 @@ class MainWindow(QMainWindow):
     @pyqtSlot()
     def messageTick(self):
         if self.expCheck.isChecked():
-            self.message.setText(self.messageList[self.messageIdx])
-            self.posImage.setPixmap(QPixmap(self.imageDir + self.posImageList[self.messageIdx] + ".png").scaledToWidth(int(self.posImage.geometry().width())))
             if self.messageIdx < self.numMessages-1:
                 self.messageIdx += 1
+            self.message.setText(self.messageList[self.messageIdx])
+            self.posImage.setPixmap(QPixmap(self.imageDir + self.posImageList[self.messageIdx] + ".png").scaledToWidth(int(self.posImage.geometry().width())))
 
     def closeEvent(self, event):
         self.cp2130Thread.quit()
