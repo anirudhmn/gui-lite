@@ -178,6 +178,9 @@ class processThread(QThread):
     def setMeta(self,matOut):
         self.matOut = matOut
 
+    def appendEmptyRow(self):
+        self.saveData.append([0,0,0,0,0])
+
 # subclass QMainWindow to customize
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -517,17 +520,20 @@ class MainWindow(QMainWindow):
             if self.firstInitialSample:
                 self.initialSample = samples
                 self.firstInitialSample = False
-            self.plotEffortControlled(samples)
+            x = self.plotEffortControlled(samples)
+            if self.firstInitialSample:
+                self.effortControlled.setValue(0)
+                self.effort.setValue(0)
+                self.processThread.appendEmptyRow()
         self.effort.setValue(np.mean(data[-1][32:37])*1000)
 
     def plotEffortControlled(self, samples):
         totalTime = self.gestureLen.value()*1000
         currentTime = samples-self.initialSample
-        self.effortControlled.setValue((currentTime*self.effortControlled.maximum())/totalTime)
+        x = (currentTime*self.effortControlled.maximum())/totalTime
         if currentTime==totalTime-50:
             self.firstInitialSample = True
-            self.effortControlled.setValue(0)
-            self.saveData.append([0,0,0,0,0])
+        return x
 
     # called every second (1000 samples) by the process thread
     @pyqtSlot()
