@@ -140,7 +140,6 @@ class processThread(QThread):
             except Empty:
                 time.sleep(0.0001)
 
-
         if self.saveData:
             print("Received total of {} samples".format(self.samples))
             print("    with {} CRCs (error rate = {})".format(self.crcSamples, self.crcSamples/self.samples))
@@ -179,7 +178,8 @@ class processThread(QThread):
         self.matOut = matOut
 
     def appendEmptyRow(self, x):
-        self.saveData.append([x,x,x,x,x])
+        self.saveData.append([x for i in range(0,67)])
+        self.crcFlag.append(1)
 
 # subclass QMainWindow to customize
 class MainWindow(QMainWindow):
@@ -420,6 +420,7 @@ class MainWindow(QMainWindow):
                 matOut['gestureSecs'] = gestureSecs
 
                 # Calibrate effor bar
+                self.messageList.append('Hello')
                 for x in range(bufferSecs,0,-1):
                     self.messageList.append('Calibrating\nPut the bottle down and rest in ' + str(x))
                     self.posImageList.append('rest')
